@@ -1,0 +1,18 @@
+{
+  "name": "revoshop-typescript-tailwind",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RevoShop Checkpoint 1 — typed, Tailwind-styled interactive product catalog.",
+  "scripts": {
+    "build:ts": "tsc",
+    "build:css": "tailwindcss -i ./styles/input.css -o ./dist/output.css --minify",
+    "build": "npm run build:ts && npm run build:css",
+    "watch:ts": "tsc --watch",
+    "watch:css": "tailwindcss -i ./styles/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  }
+}
