@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RevoShop — Latihan DOM &amp; Event Handling</title>
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="page__header">
+      <p class="eyebrow">JavaScript Fundamentals</p>
+      <h1>Latihan DOM Manipulation &amp; Event Handling</h1>
+      <p class="page__lead">
+        Mini keranjang belanja RevoShop dibuat dengan vanilla JavaScript:
+        memilih &amp; mengubah elemen, toggle class, membuat/menghapus elemen,
+        dan menangani event (click, submit, input).
+      </p>
+      <nav class="page__nav">
+        <a href="array-methods.html">Lihat latihan array methods &rarr;</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- ============ Product picker ============ -->
+      <section class="card" aria-labelledby="picker-heading">
+        <h2 id="picker-heading">Tambah Produk ke Keranjang</h2>
+        <p class="card__hint">Klik "Tambah" untuk memasukkan produk ke keranjang di sebelah kanan.</p>
+        <ul id="product-list" class="product-list"></ul>
+      </section>
+
+      <!-- ============ Cart ============ -->
+      <section class="card" aria-labelledby="cart-heading">
+        <div class="card__title-row">
+          <h2 id="cart-heading">Keranjang Saya</h2>
+          <button id="clear-cart-btn" type="button" class="btn btn--ghost btn--small">Kosongkan</button>
+        </div>
+
+        <p id="empty-cart-message" class="empty-message">Keranjang masih kosong. Tambahkan produk dari daftar di kiri.</p>
+
+        <ul id="cart-list" class="cart-list" aria-live="polite"></ul>
+
+        <div class="cart-summary">
+          <span>Total</span>
+          <strong id="cart-total">Rp 0</strong>
+        </div>
+      </section>
+
+      <!-- ============ Theme + notes (toggle class demo) ============ -->
+      <section class="card" aria-labelledby="notes-heading">
+        <h2 id="notes-heading">Catatan Pesanan</h2>
+        <div class="theme-toggle-row">
+          <button id="theme-toggle-btn" type="button" class="btn btn--ghost btn--small">
+            Aktifkan mode gelap
+          </button>
+        </div>
+
+        <form id="note-form" class="note-form">
+          <label for="note-input">Tambah catatan cepat</label>
+          <div class="note-form__row">
+            <input id="note-input" type="text" placeholder="contoh: Bungkus kado, ya!" required minlength="2" />
+            <button type="submit" class="btn btn--primary btn--small">Tambah</button>
+          </div>
+        </form>
+        <ul id="note-list" class="note-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="dom-events.js"></script>
+</body>
+</html>
