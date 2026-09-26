@@ -87,7 +87,7 @@ npm run watch:ts    # terminal 1
 npm run watch:css   # terminal 2
 ```
 
-`tsc` dikonfigurasi lewat `tsconfig.json` (strict mode aktif — 
+`tsc` dikonfigurasi lewat `tsconfig.json` (strict mode aktif —
 `strict`, `noImplicitAny`, `noUnusedLocals`, dst). Tailwind CSS 4
 dijalankan lewat `@tailwindcss/cli`, mengambil `styles/input.css`
 (`@import "tailwindcss";`) dan otomatis memindai class yang dipakai di
@@ -106,12 +106,24 @@ Riwayat commit disusun bertahap per topik: HTML/CSS, lalu JavaScript
 (DOM/events dan array methods), lalu TypeScript + Tailwind — sesuai
 urutan pengerjaan checkpoint ini.
 
-## Screenshot yang Perlu Diambil (manual)
+## Screenshot
 
-Sesuai deliverable checkpoint, lengkapi repo ini dengan screenshot:
+Screenshot disimpan di folder [`screenshots/`](screenshots/) — lihat
+`screenshots/README.md` untuk daftar nama file yang diharapkan dan cara
+mengambilnya. Setelah file-file itu ada, tampilkan di sini:
 
-1. `html-css/index.html` pada lebar desktop (≥ 1024px).
-2. `html-css/index.html` pada lebar mobile (≤ 480px, gunakan DevTools
-   device toolbar).
-3. `typescript-tailwind/index.html` yang menunjukkan live search sedang
-   memfilter produk, sekaligus styling Tailwind-nya.
+1. `html-css/index.html` pada lebar desktop (≥ 1024px):
+   ![HTML/CSS — Desktop](screenshots/html-css-desktop.png)
+2. `html-css/index.html` pada lebar mobile (≤ 480px):
+   ![HTML/CSS — Mobile](screenshots/html-css-mobile.png)
+3. `javascript/dom-events.html` — mini keranjang belanja:
+   ![JavaScript — DOM & Events](screenshots/javascript-dom-events.png)
+4. `javascript/array-methods.html` — statistik & tabel order:
+   ![JavaScript — Array Methods](screenshots/javascript-array-methods.png)
+5. `typescript-tailwind/index.html` dengan live search aktif (desktop):
+   ![TypeScript + Tailwind — Desktop](screenshots/typescript-tailwind-desktop.png)
+6. `typescript-tailwind/index.html` pada lebar mobile:
+   ![TypeScript + Tailwind — Mobile](screenshots/typescript-tailwind-mobile.png)
+
+> Catatan: gambar di atas hanya akan muncul setelah file screenshot
+> benar-benar ada di folder `screenshots/` dengan nama yang sesuai.
