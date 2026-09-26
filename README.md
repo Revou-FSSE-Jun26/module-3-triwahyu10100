@@ -118,6 +118,7 @@ mengambilnya. Setelah file-file itu ada, tampilkan di sini:
    ![HTML/CSS — Mobile](screenshots/html-css-mobile.png)
 3. `javascript/dom-events.html` — mini keranjang belanja:
    ![JavaScript — DOM & Events](screenshots/javascript-dom-events.png)
+   ![JavaScript — DOM & Events (catatan)](screenshots/javascript-dom-events-2.png)
 4. `javascript/array-methods.html` — statistik & tabel order:
    ![JavaScript — Array Methods](screenshots/javascript-array-methods.png)
 5. `typescript-tailwind/index.html` dengan live search aktif (desktop):
