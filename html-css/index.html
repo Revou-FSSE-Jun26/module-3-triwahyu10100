@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RevoShop — Profil Penjual</title>
+  <meta name="description" content="Halaman profil penjual RevoShop: informasi toko, statistik, dan formulir kontak." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#main-content">
+        <span class="brand__mark" aria-hidden="true">R</span>
+        <span class="brand__name">RevoShop</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigasi utama">
+        <ul class="site-nav__list">
+          <li><a href="#profile">Profil</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ============ PROFILE HERO (CSS Grid) ============ -->
+    <section id="profile" class="profile-hero container" aria-labelledby="profile-heading">
+      <div class="profile-hero__avatar">
+        <img
+          src="https://api.dicebear.com/7.x/initials/svg?seed=Revo%20Store&backgroundColor=4f46e5&fontFamily=Poppins"
+          alt="Foto profil toko RevoShop Official Store"
+          width="140"
+          height="140"
+        />
+        <span class="badge badge--verified">✓ Terverifikasi</span>
+      </div>
+
+      <div class="profile-hero__info">
+        <p class="eyebrow">Penjual Elektronik &amp; Gaya Hidup</p>
+        <h1 id="profile-heading">RevoShop Official Store</h1>
+        <p class="username">@revoshop.official &middot; Medan, Sumatera Utara</p>
+        <p class="bio-short">
+          Menjual perangkat elektronik, apparel, dan perlengkapan rumah tangga
+          pilihan sejak 2023. Respon cepat, pengiriman terpercaya.
+        </p>
+        <div class="profile-hero__actions">
+          <a class="btn btn--primary" href="#contact">Hubungi Penjual</a>
+          <a class="btn btn--ghost" href="#about">Lihat Profil</a>
+        </div>
+      </div>
+
+      <dl class="profile-stats" aria-label="Statistik toko">
+        <div class="profile-stats__item">
+          <dt>Total Produk</dt>
+          <dd>10</dd>
+        </div>
+        <div class="profile-stats__item">
+          <dt>Total Pesanan</dt>
+          <dd>6</dd>
+        </div>
+        <div class="profile-stats__item">
+          <dt>Rating</dt>
+          <dd>4.9<span aria-hidden="true">★</span></dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ============ ABOUT (Flexbox) ============ -->
+    <section id="about" class="about container" aria-labelledby="about-heading">
+      <h2 id="about-heading">Tentang Toko</h2>
+      <p>
+        RevoShop Official Store adalah bagian dari platform RevoShop, toko
+        online yang mengelola kategori Electronics, Apparel, Home &amp;
+        Kitchen, Books, dan Sports &amp; Outdoors. Setiap pesanan diproses
+        melalui sistem yang melacak status mulai dari <em>waiting</em>,
+        <em>paid</em>, <em>shipped</em>, hingga <em>delivered</em>.
+      </p>
+
+      <ul class="contact-info-list">
+        <li>
+          <span class="icon" aria-hidden="true">📍</span>
+          <span>Jl. Merdeka No. 10, Medan, Sumatera Utara</span>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">✉️</span>
+          <span><a href="mailto:hello@revoshop.example.com">hello@revoshop.example.com</a></span>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">📞</span>
+          <span><a href="tel:+628121112222">+62 812-1111-2222</a></span>
+        </li>
+      </ul>
+
+      <h3>Kategori yang Dijual</h3>
+      <div class="chip-grid">
+        <span class="chip">Electronics</span>
+        <span class="chip">Apparel</span>
+        <span class="chip">Home &amp; Kitchen</span>
+        <span class="chip">Books</span>
+        <span class="chip">Sports &amp; Outdoors</span>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT FORM ============ -->
+    <section id="contact" class="contact container" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Hubungi Penjual</h2>
+      <p class="section-lead">
+        Ada pertanyaan soal produk atau status pesanan? Isi formulir di bawah
+        ini, tim RevoShop akan membalas dalam 1 hari kerja.
+      </p>
+
+      <form class="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="first-name">Nama depan</label>
+            <input
+              type="text"
+              id="first-name"
+              name="first-name"
+              autocomplete="given-name"
+              required
+              minlength="1"
+            />
+          </div>
+          <div class="form-field">
+            <label for="last-name">Nama belakang</label>
+            <input
+              type="text"
+              id="last-name"
+              name="last-name"
+              autocomplete="family-name"
+              required
+              minlength="1"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Alamat email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="phone">Nomor telepon</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              autocomplete="tel"
+              pattern="^[0-9+\-\s]{8,20}$"
+              placeholder="+62 812-xxxx-xxxx"
+            />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="topic">Topik</label>
+          <select id="topic" name="topic" required>
+            <option value="" disabled selected>Pilih topik pesan</option>
+            <option value="product">Pertanyaan produk</option>
+            <option value="order-status">Status pesanan</option>
+            <option value="return">Retur / komplain</option>
+            <option value="other">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="order-id">Nomor pesanan (opsional)</label>
+          <input type="text" id="order-id" name="order-id" placeholder="contoh: ORD-000123" />
+        </div>
+
+        <div class="form-field">
+          <label for="message">Pesan</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            minlength="10"
+            placeholder="Tuliskan pertanyaan atau kendala kamu di sini..."
+          ></textarea>
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Preferensi jawaban</legend>
+          <div class="radio-row">
+            <label class="radio-label">
+              <input type="radio" name="reply-method" value="email" checked />
+              Email
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="reply-method" value="phone" />
+              Telepon
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-field form-field--checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" name="consent" required />
+            Saya setuju data ini digunakan untuk membalas pertanyaan saya.
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Kirim Pesan</button>
+        <p class="form-note" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>&copy; 2026 RevoShop. Dibuat untuk keperluan Checkpoint 1 — Frontend Fundamentals.</p>
+      <ul class="site-footer__links">
+        <li><a href="#profile">Profil</a></li>
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Small progressive-enhancement touch: prevent real submission (no backend
+    // wired here) and show a friendly confirmation message instead.
+    document.querySelector('.contact-form')?.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const note = document.querySelector('.form-note');
+      if (note) {
+        note.textContent = 'Terima kasih! Pesan kamu sudah diterima (demo, belum terhubung ke backend).';
+      }
+      this.reset();
+    });
+  </script>
+</body>
+</html>
