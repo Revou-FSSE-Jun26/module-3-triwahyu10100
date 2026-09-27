@@ -1,6 +1,6 @@
-import type { Rupiah } from './types.js';
+import type { Rupiah } from "./types.js";
 
-/** Formats a number as Indonesian Rupiah, e.g. 799000 -> "Rp 799.000". */
+/** Memformat angka menjadi Rupiah, contoh: 799000 -> "Rp 799.000". */
 export function formatRupiah(amount: Rupiah): string {
-  return `Rp ${amount.toLocaleString('id-ID')}`;
+  return `Rp ${amount.toLocaleString("id-ID")}`;
 }

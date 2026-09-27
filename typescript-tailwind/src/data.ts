@@ -1,10 +1,11 @@
 import type { Category, Product } from "./types.js";
 
 /**
- * Seed data copied (and trimmed) from
- * backend/1_checkpoint_revoshop_sql/seed.sql so the typed catalog
- * renders data that lines up 1:1 with what the real RevoShop API
- * would return once Checkpoint 2 wires this UI to Flask.
+ * Data seed disalin (dan dipangkas) dari
+ * backend/1_checkpoint_revoshop_sql/seed.sql supaya katalog bertipe
+ * ini menampilkan data yang sama persis dengan yang akan dikembalikan
+ * API RevoShop yang sebenarnya, begitu UI ini disambungkan ke Flask
+ * di Checkpoint 2.
  */
 
 export const CATEGORIES: readonly Category[] = [

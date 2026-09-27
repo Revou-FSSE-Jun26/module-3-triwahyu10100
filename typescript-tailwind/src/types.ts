@@ -1,13 +1,14 @@
 /**
- * Domain types for the RevoShop typed product catalog.
+ * Tipe data domain untuk katalog produk RevoShop yang bertipe.
  *
- * These mirror the JSON shapes returned by the Flask backend's
- * `to_dict()` methods (see backend/app/models/*.py and
- * backend/app/schemas.py) so this exercise is a realistic predecessor
- * to the React <ProductCard /> component built in Checkpoint 2.
+ * Tipe-tipe ini mencerminkan bentuk JSON yang dikembalikan oleh method
+ * `to_dict()` di backend Flask (lihat backend/app/models/*.py dan
+ * backend/app/schemas.py), supaya latihan ini menjadi pendahulu yang
+ * realistis untuk komponen React <ProductCard /> yang akan dibuat di
+ * Checkpoint 2.
  */
 
-/** Mirrors `Category.to_dict()` in backend/app/models/category.py. */
+/** Mencerminkan `Category.to_dict()` di backend/app/models/category.py. */
 export interface Category {
   id: number;
   category_name: string;
@@ -15,15 +16,15 @@ export interface Category {
 }
 
 /**
- * Union type modeling the possible stock states of a product.
- * This is derived from `stock_quantity` at render time (see
- * `getStockStatus` in catalog.ts) rather than stored directly on the
- * product, but it is the canonical "value with more than one shape"
- * required by the rubric.
+ * Union type yang memodelkan kemungkinan status stok sebuah produk.
+ * Nilai ini diturunkan dari `stock_quantity` saat render (lihat
+ * `getStockStatus` di catalog.ts), bukan disimpan langsung di data
+ * produk — tapi inilah contoh baku "nilai dengan lebih dari satu
+ * bentuk" yang diminta rubrik.
  */
-export type StockStatus = 'in-stock' | 'low-stock' | 'out-of-stock';
+export type StockStatus = "in-stock" | "low-stock" | "out-of-stock";
 
-/** Mirrors `Product.to_dict()` in backend/app/models/product.py. */
+/** Mencerminkan `Product.to_dict()` di backend/app/models/product.py. */
 export interface Product {
   id: number;
   category_id: number;
@@ -33,35 +34,36 @@ export interface Product {
   price: number;
   stock_quantity: number;
   sku: string;
-  /** Array of image URLs — matches the JSON column `images` on the backend. */
+  /** Array URL gambar — sesuai dengan kolom JSON `images` di backend. */
   images: string[];
 }
 
-/** A product enriched with its resolved category — used for rendering. */
+/** Produk yang dilengkapi dengan kategori yang sudah di-resolve — dipakai untuk render. */
 export interface ProductWithCategory extends Product {
   category: Category;
 }
 
-/** One line item inside the shopping cart (client-side state only). */
+/** Satu baris item di dalam keranjang belanja (hanya state di sisi client). */
 export interface CartItem {
   product: Product;
   quantity: number;
 }
 
 /**
- * Union type describing a transient UI notification. Each variant
- * carries only the data relevant to that variant ("more than one
- * shape/state" per the rubric), and callers must narrow on `kind`
- * before accessing variant-specific fields.
+ * Union type yang mendeskripsikan notifikasi UI sementara. Setiap
+ * variant hanya membawa data yang relevan untuk variant itu ("lebih
+ * dari satu bentuk/state" sesuai rubrik), dan pemanggil harus
+ * mempersempit (narrow) berdasarkan `kind` sebelum mengakses field
+ * khusus variant tersebut.
  */
 export type CatalogNotification =
-  | { kind: 'added-to-cart'; productName: string; quantity: number }
-  | { kind: 'removed-from-cart'; productName: string }
-  | { kind: 'search-no-results'; query: string }
-  | { kind: 'cart-cleared' };
+  | { kind: "added-to-cart"; productName: string; quantity: number }
+  | { kind: "removed-from-cart"; productName: string }
+  | { kind: "search-no-results"; query: string }
+  | { kind: "cart-cleared" };
 
-/** Alias for currency values expressed in IDR (whole rupiah, no decimals in the demo data). */
+/** Alias untuk nilai mata uang dalam Rupiah (bilangan bulat, tanpa desimal di data demo ini). */
 export type Rupiah = number;
 
-/** Alias for the sort strategies exposed by the catalog UI. */
-export type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc';
+/** Alias untuk strategi pengurutan yang disediakan UI katalog. */
+export type SortOption = "default" | "price-asc" | "price-desc" | "name-asc";
