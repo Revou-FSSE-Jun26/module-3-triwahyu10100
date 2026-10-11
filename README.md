@@ -14,6 +14,7 @@ sesungguhnya.
 html-css/            -> Halaman profil semantik + form kontak (HTML5 + CSS Grid/Flexbox, responsive)
 javascript/           -> Latihan DOM manipulation/events & array methods (forEach/map/filter/reduce)
 typescript-tailwind/  -> Proyek TypeScript + Tailwind CSS: katalog produk bertipe, live search, keranjang interaktif
+nextjs-app/            -> Storefront RevoShop Next.js 14 App Router + TypeScript + Tailwind (Checkpoint 2), mengonsumsi API Flask
 backend/               -> Flask + PostgreSQL API RevoShop (checkpoint sebelumnya, tidak diubah di checkpoint ini)
 ```
 
@@ -99,6 +100,66 @@ Backend Flask + PostgreSQL dari checkpoint sebelumnya (lihat
 `backend/README.md` untuk detail lengkap). Tidak disentuh pada
 checkpoint frontend fundamentals ini — hanya dijadikan referensi bentuk
 data (`Product`, `Category`, `Order`) untuk ketiga folder di atas.
+
+### `nextjs-app/`
+
+Storefront RevoShop untuk Checkpoint 2, dibangun dengan Next.js 14
+(App Router) + TypeScript + Tailwind CSS, mengonsumsi API Flask di
+`backend/` secara langsung (bukan menduplikasi data contoh seperti di
+`typescript-tailwind/`).
+
+Konsep yang dilatih:
+
+- **Server Components** untuk fetch data server-to-server (produk,
+  kategori, order) — backend Flask tidak mengaktifkan CORS, jadi semua
+  fetch katalog/order dilakukan dari komponen server, bukan dari
+  browser.
+- **Client Components** khusus untuk interaktivitas di browser: state
+  keranjang (`CartProvider` + `useReducer`), search box dengan
+  debounce, filter kategori, penghitung kuantitas, dan highlight link
+  nav aktif lewat `usePathname()`.
+- **Routing App Router**: halaman beranda, `/products`,
+  `/products/[id]`, `/categories`, dan `/orders`, masing-masing dengan
+  `loading.tsx`/`error.tsx` sendiri.
+- **Styling dengan Tailwind CSS**, konsisten dengan pendekatan
+  utility-first yang sama dipakai di `typescript-tailwind/`.
+
+**Cara menjalankan (butuh Node.js ≥ 18, backend Flask harus berjalan
+di `localhost:5000`):**
+
+```powershell
+cd nextjs-app
+npm install
+npm run dev
+```
+
+Buat `.env.local` di `nextjs-app/` (gunakan `.env.example` sebagai
+acuan) dengan variabel berikut:
+
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+DEMO_USER_EMAIL=
+DEMO_USER_PASSWORD=
+```
+
+Halaman `/orders` butuh login demo untuk mengambil token JWT dari
+backend. Sebelum halaman ini berfungsi, daftarkan dulu akun demo lewat
+`POST /users` ke API Flask yang sedang berjalan, lalu isi
+`DEMO_USER_EMAIL` dan `DEMO_USER_PASSWORD` di `.env.local` dengan
+kredensial akun tersebut. Kedua variabel ini sengaja tidak diberi
+prefix `NEXT_PUBLIC_` karena hanya dipakai di sisi server
+(`lib/demo-auth.ts`) dan tidak pernah dikirim ke browser.
+
+Daripada menjalankan backend Flask dan frontend Next.js secara manual
+di dua terminal berbeda, jalankan `./start-dev.ps1` dari root proyek —
+script ini otomatis membuka jendela PowerShell baru untuk backend
+Flask (port 5000), lalu menjalankan `npm run dev` untuk frontend
+(port 3000) di jendela yang sama. Catatan: jika backend Flask sedang
+tidak aktif, halaman katalog (`/`, `/products`, `/categories`) akan
+otomatis menampilkan data sementara dari `fakestoreapi.com` lewat
+`lib/fakestore-fallback.ts` sebagai fallback SEMENTARA agar tampilan
+tidak kosong — ini bukan data RevoShop yang sesungguhnya, dan halaman
+`/orders` tidak memiliki fallback ini.
 
 ## Commit History
 

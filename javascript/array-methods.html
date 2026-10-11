@@ -1,58 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RevoShop — Latihan Array Methods</title>
-  <link rel="stylesheet" href="shared.css" />
-</head>
-<body>
-  <div class="page">
-    <header class="page__header">
-      <p class="eyebrow">JavaScript Fundamentals</p>
-      <h1>Latihan Array Processing: forEach, map, filter, reduce</h1>
-      <p class="page__lead">
-        Data order RevoShop (meniru response <code>Order.to_dict()</code> di
-        backend) diolah dengan empat method array inti untuk menghasilkan
-        statistik dan tabel yang bisa difilter.
-      </p>
-      <nav class="page__nav">
-        <a href="dom-events.html">&larr; Kembali ke latihan DOM &amp; events</a>
-      </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RevoShop — Latihan Array Methods</title>
+    <link rel="stylesheet" href="shared.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__header">
+        <p class="eyebrow">JavaScript Fundamentals</p>
+        <h1>Latihan Array Processing: forEach, map, filter, reduce</h1>
+        <p class="page__lead">
+          Data order RevoShop (meniru response <code>Order.to_dict()</code> di
+          backend) diolah dengan empat method array inti untuk menghasilkan
+          statistik dan tabel yang bisa difilter.
+        </p>
+        <nav class="page__nav">
+          <a href="dom-events.html"
+            >&larr; Kembali ke latihan DOM &amp; events</a
+          >
+        </nav>
+      </header>
 
-    <main class="layout">
-      <section class="card" aria-labelledby="stats-heading">
-        <h2 id="stats-heading">Ringkasan (reduce)</h2>
-        <p class="card__hint">Dihitung dengan <code>Array.prototype.reduce</code>.</p>
-        <div id="stats-grid" class="stats-grid"></div>
-      </section>
+      <main class="layout">
+        <section class="card" aria-labelledby="stats-heading">
+          <h2 id="stats-heading">Ringkasan (reduce)</h2>
+          <p class="card__hint">
+            Dihitung dengan <code>Array.prototype.reduce</code>.
+          </p>
+          <div id="stats-grid" class="stats-grid"></div>
+        </section>
 
-      <section class="card" aria-labelledby="highlight-heading">
-        <h2 id="highlight-heading">Order Bernilai Tinggi (filter + map)</h2>
-        <p class="card__hint">Order dengan total &ge; Rp 500.000, ditampilkan sebagai ringkasan teks.</p>
-        <ul id="highlight-list" class="note-list"></ul>
-      </section>
+        <section class="card" aria-labelledby="highlight-heading">
+          <h2 id="highlight-heading">Order Bernilai Tinggi (filter + map)</h2>
+          <p class="card__hint">
+            Order dengan total &ge; Rp 500.000, ditampilkan sebagai ringkasan
+            teks.
+          </p>
+          <ul id="highlight-list" class="note-list"></ul>
+        </section>
 
-      <section class="card" aria-labelledby="table-heading" style="grid-column: 1 / -1">
-        <h2 id="table-heading">Semua Order (forEach + filter status)</h2>
-        <div id="status-filters" class="filter-row" role="group" aria-label="Filter status order"></div>
-        <table class="data-table">
-          <caption>Klik salah satu tombol status di atas untuk memfilter tabel.</caption>
-          <thead>
-            <tr>
-              <th scope="col">Order ID</th>
-              <th scope="col">Status</th>
-              <th scope="col">Total</th>
-              <th scope="col">Alamat Pengiriman</th>
-            </tr>
-          </thead>
-          <tbody id="order-table-body"></tbody>
-        </table>
-      </section>
-    </main>
-  </div>
+        <section
+          class="card"
+          aria-labelledby="table-heading"
+          style="grid-column: 1 / -1">
+          <h2 id="table-heading">Semua Order (forEach + filter status)</h2>
+          <div
+            id="status-filters"
+            class="filter-row"
+            role="group"
+            aria-label="Filter status order"></div>
+          <table class="data-table">
+            <caption>
+              Klik salah satu tombol status di atas untuk memfilter tabel.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total</th>
+                <th scope="col">Alamat Pengiriman</th>
+              </tr>
+            </thead>
+            <tbody id="order-table-body"></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
 
-  <script src="array-methods.js"></script>
-</body>
+    <script src="array-methods.js"></script>
+  </body>
 </html>

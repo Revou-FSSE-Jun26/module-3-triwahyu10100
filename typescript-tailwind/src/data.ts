@@ -31,8 +31,8 @@ export const CATEGORIES: readonly Category[] = [
   },
   {
     id: 5,
-    category_name: "Sports & Outdoors",
-    description: "Equipment and gear for sports and outdoor activities",
+    category_name: "Sports",
+    description: "Fitness equipment and sports accessories",
   },
 ];
 
