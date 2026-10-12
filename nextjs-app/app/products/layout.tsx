@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { fetchFromApi } from "@/lib/api";
-import { fetchFallbackCategories } from "@/lib/fakestore-fallback";
 import { SearchBar } from "@/components/SearchBar";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import type { Category } from "@/lib/types";
@@ -18,10 +17,9 @@ export default async function ProductsLayout({
   try {
     categories = await fetchFromApi<Category[]>("/categories");
   } catch {
-    // Flask API tidak bisa dijangkau — pakai kategori fallback SEMENTARA dari
-    // fakestoreapi.com supaya filter kategori tetap berfungsi terhadap data
-    // produk fallback di halaman /products.
-    categories = fetchFallbackCategories();
+    // Kegagalan mengambil kategori tidak boleh membuat seluruh halaman /products
+    // gagal — CategoryFilter akan menampilkan notifikasi singkat dan <select> nonaktif.
+    categories = null;
   }
 
   return (

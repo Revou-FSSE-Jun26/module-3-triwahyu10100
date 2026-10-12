@@ -154,12 +154,7 @@ Daripada menjalankan backend Flask dan frontend Next.js secara manual
 di dua terminal berbeda, jalankan `./start-dev.ps1` dari root proyek —
 script ini otomatis membuka jendela PowerShell baru untuk backend
 Flask (port 5000), lalu menjalankan `npm run dev` untuk frontend
-(port 3000) di jendela yang sama. Catatan: jika backend Flask sedang
-tidak aktif, halaman katalog (`/`, `/products`, `/categories`) akan
-otomatis menampilkan data sementara dari `fakestoreapi.com` lewat
-`lib/fakestore-fallback.ts` sebagai fallback SEMENTARA agar tampilan
-tidak kosong — ini bukan data RevoShop yang sesungguhnya, dan halaman
-`/orders` tidak memiliki fallback ini.
+(port 3000) di jendela yang sama.
 
 ## Commit History
 

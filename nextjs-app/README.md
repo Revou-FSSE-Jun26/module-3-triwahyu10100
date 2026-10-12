@@ -45,5 +45,3 @@ Halaman `/orders` memakai akun demo yang login otomatis di sisi server (lihat `l
 ## Menjalankan backend + frontend sekaligus
 
 Daripada membuka dua terminal manual (satu untuk `backend/`, satu untuk `nextjs-app/`), jalankan `./start-dev.ps1` dari root proyek (satu folder di atas `nextjs-app/`). Script ini membuka jendela PowerShell baru untuk backend Flask (port 5000), lalu menjalankan `npm run dev` di jendela saat ini untuk frontend (port 3000).
-
-Jika backend Flask kebetulan tidak aktif, halaman katalog (beranda, `/products`, `/categories`) tetap menampilkan data lewat fallback SEMENTARA ke `fakestoreapi.com` (lihat `lib/fakestore-fallback.ts`) supaya tampilan tidak kosong total — ditandai dengan banner "Mode cadangan aktif". Ini bukan data RevoShop asli, dan Flask API tetap menjadi sumber data utama begitu backend dijalankan kembali. Halaman `/orders` tidak memiliki fallback ini.
