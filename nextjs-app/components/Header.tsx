@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Navbar } from "./Navbar";
 import { CartSummary } from "./CartSummary";
+import { AuthStatus } from "./AuthStatus";
 
 export function Header() {
   return (
@@ -9,7 +10,10 @@ export function Header() {
         RevoShop
       </Link>
       <Navbar />
-      <CartSummary />
+      <div className="flex items-center gap-3">
+        <CartSummary />
+        <AuthStatus />
+      </div>
     </header>
   );
 }

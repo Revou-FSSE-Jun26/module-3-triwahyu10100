@@ -7,7 +7,7 @@ export function CartSummary() {
   const { itemCount, totalPrice } = useCart();
   return (
     <Link
-      href="/products"
+      href="/cart"
       aria-label={`Keranjang: ${itemCount} item, total ${formatRupiah(totalPrice)}`}
       className="flex items-center gap-2 rounded border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50">
       <span

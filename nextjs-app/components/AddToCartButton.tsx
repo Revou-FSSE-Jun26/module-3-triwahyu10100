@@ -3,15 +3,15 @@ import { useState } from "react";
 import { useCart } from "@/app/providers/cart-provider";
 import type { Product } from "@/lib/types";
 
-export interface AddToCartControlsProps {
+export interface AddToCartButtonProps {
   product: Product;
   initialQuantity?: number;
 }
 
-export function AddToCartControls({
+export function AddToCartButton({
   product,
   initialQuantity = 1,
-}: AddToCartControlsProps) {
+}: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const { addToCart, getRemainingStock } = useCart();
   const [justAdded, setJustAdded] = useState(false);

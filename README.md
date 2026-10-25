@@ -103,10 +103,15 @@ data (`Product`, `Category`, `Order`) untuk ketiga folder di atas.
 
 ### `nextjs-app/`
 
-Storefront RevoShop untuk Checkpoint 2, dibangun dengan Next.js 14
-(App Router) + TypeScript + Tailwind CSS, mengonsumsi API Flask di
-`backend/` secara langsung (bukan menduplikasi data contoh seperti di
-`typescript-tailwind/`).
+Storefront RevoShop, dibangun dengan Next.js 14 (App Router) +
+TypeScript + Tailwind CSS, mengonsumsi API Flask di `backend/` secara
+langsung (bukan menduplikasi data contoh seperti di
+`typescript-tailwind/`). Checkpoint 2 membangun fondasi katalog
+read-only; **Checkpoint 3** menambahkan autentikasi (register/login/
+logout berbasis JWT + cookie sesi), keranjang yang persisten di
+`localStorage`, alur checkout nyata ke `POST /orders`, dashboard admin
+dengan CRUD produk & kategori, serta suite E2E Playwright yang
+mencakup seluruh alur itu.
 
 Konsep yang dilatih:
 
@@ -114,13 +119,26 @@ Konsep yang dilatih:
   kategori, order) — backend Flask tidak mengaktifkan CORS, jadi semua
   fetch katalog/order dilakukan dari komponen server, bukan dari
   browser.
-- **Client Components** khusus untuk interaktivitas di browser: state
-  keranjang (`CartProvider` + `useReducer`), search box dengan
-  debounce, filter kategori, penghitung kuantitas, dan highlight link
-  nav aktif lewat `usePathname()`.
-- **Routing App Router**: halaman beranda, `/products`,
-  `/products/[id]`, `/categories`, dan `/orders`, masing-masing dengan
-  `loading.tsx`/`error.tsx` sendiri.
+- **Client Components** untuk interaktivitas di browser: state
+  keranjang (`CartProvider` + `useReducer`, persisten via
+  `localStorage`), search box dengan debounce, filter kategori,
+  penghitung kuantitas, dan highlight link nav aktif lewat
+  `usePathname()`.
+- **Route Handler sebagai proxy same-origin** (`app/api/**`) — satu-
+  satunya jalur bagi Client Component untuk melakukan mutasi
+  (POST/PUT/DELETE) ke Flask, karena backend tidak mengaktifkan CORS.
+- **Cookie sesi** (`revoshop_token` httpOnly berisi JWT asli,
+  `revoshop_role` non-httpOnly untuk UX) dan **middleware route
+  protection** (`middleware.ts`) yang melindungi `/cart`, `/checkout`,
+  `/orders`, dan `/dashboard/**`.
+- **Toast notification** (`react-hot-toast`) untuk feedback aksi
+  (login, checkout, CRUD admin).
+- **E2E testing dengan Playwright** (`nextjs-app/e2e/**`) — mencakup
+  auth, belanja/checkout, dan CRUD admin terhadap backend Flask nyata.
+- **Routing App Router**: beranda, `/products`, `/products/[id]`,
+  `/categories`, `/orders`, `/register`, `/login`, `/cart`,
+  `/checkout`, dan `/dashboard/**` (admin), masing-masing dengan
+  `loading.tsx`/`error.tsx` sendiri bila relevan.
 - **Styling dengan Tailwind CSS**, konsisten dengan pendekatan
   utility-first yang sama dipakai di `typescript-tailwind/`.
 
@@ -138,23 +156,26 @@ acuan) dengan variabel berikut:
 
 ```
 NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
-DEMO_USER_EMAIL=
-DEMO_USER_PASSWORD=
+JWT_SECRET_KEY=dev-jwt-secret-key-change-in-production
 ```
 
-Halaman `/orders` butuh login demo untuk mengambil token JWT dari
-backend. Sebelum halaman ini berfungsi, daftarkan dulu akun demo lewat
-`POST /users` ke API Flask yang sedang berjalan, lalu isi
-`DEMO_USER_EMAIL` dan `DEMO_USER_PASSWORD` di `.env.local` dengan
-kredensial akun tersebut. Kedua variabel ini sengaja tidak diberi
-prefix `NEXT_PUBLIC_` karena hanya dipakai di sisi server
-(`lib/demo-auth.ts`) dan tidak pernah dikirim ke browser.
+`JWT_SECRET_KEY` **harus** sama persis dengan `JWT_SECRET_KEY` di
+`backend/.env` — dipakai `lib/require-admin.ts` untuk memverifikasi
+signature JWT secara kriptografis sebelum mengizinkan mutasi produk/
+kategori lewat dashboard admin. Server-only, tidak pernah dikirim ke
+browser. (Checkpoint 2 memakai `DEMO_USER_EMAIL`/`DEMO_USER_PASSWORD`
+untuk halaman `/orders` — kedua variabel itu sudah tidak dipakai lagi
+sejak Checkpoint 3 menggantinya dengan sesi login asli.)
 
 Daripada menjalankan backend Flask dan frontend Next.js secara manual
 di dua terminal berbeda, jalankan `./start-dev.ps1` dari root proyek —
 script ini otomatis membuka jendela PowerShell baru untuk backend
 Flask (port 5000), lalu menjalankan `npm run dev` untuk frontend
 (port 3000) di jendela yang sama.
+
+Untuk menjalankan suite E2E Playwright (termasuk langkah provisioning
+akun admin secara manual), lihat bagian "Menjalankan suite Playwright"
+di `nextjs-app/README.md`.
 
 ## Commit History
 

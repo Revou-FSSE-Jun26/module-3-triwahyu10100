@@ -9,6 +9,12 @@
 # testing
 /coverage
 
+# Playwright (nextjs-app/e2e/**)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # next.js
 /.next/
 /out/
@@ -28,6 +34,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.test
 
 # vercel
 .vercel

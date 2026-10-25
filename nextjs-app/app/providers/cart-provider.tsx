@@ -2,11 +2,15 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
+  useState,
   ReactNode,
 } from "react";
 import type { Product } from "@/lib/types";
+
+const CART_STORAGE_KEY = "revoshop_cart";
 
 export interface CartLine {
   product: Product;
@@ -22,7 +26,8 @@ type CartAction =
   | { type: "increment"; productId: number }
   | { type: "decrement"; productId: number }
   | { type: "remove"; productId: number }
-  | { type: "clear" };
+  | { type: "clear" }
+  | { type: "hydrate"; lines: CartLine[] };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -70,6 +75,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     case "clear":
       return { lines: [] };
+    case "hydrate":
+      return { lines: action.lines };
     default:
       return state;
   }
@@ -91,6 +98,43 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { lines: [] });
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Efek 1 — hanya jalan sekali, sesudah mount. Tidak pernah dijalankan
+  // selama render awal/inisialisasi useReducer, supaya HTML yang
+  // dikirim server (selalu "keranjang kosong", karena server tidak
+  // punya akses localStorage) tidak pernah berbeda dari apa yang React
+  // render pertama kali di client — jadi tidak ada peringatan hydration
+  // mismatch.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CART_STORAGE_KEY);
+      if (raw) {
+        dispatch({ type: "hydrate", lines: JSON.parse(raw) as CartLine[] });
+      }
+    } catch {
+      // localStorage tidak tersedia atau datanya korup — mulai dari
+      // keranjang kosong, jangan sampai melempar error ke seluruh app.
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
+
+  // Efek 2 — menulis setiap kali isi keranjang berubah, TAPI baru aktif
+  // setelah efek 1 selesai (isHydrated=true). Tanpa guard ini, pada
+  // commit mount pertama efek ini akan menimpa localStorage dengan
+  // array kosong sesaat sebelum dispatch(hydrate) di atas benar-benar
+  // diterapkan.
+  useEffect(() => {
+    if (!isHydrated) return;
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.lines));
+    } catch {
+      // Storage penuh / mode privat (mis. Safari) — abaikan, keranjang
+      // tetap berfungsi normal di memori untuk sesi ini.
+    }
+  }, [state.lines, isHydrated]);
+
   const itemCount = useMemo(
     () => state.lines.reduce((n, l) => n + l.quantity, 0),
     [state.lines],

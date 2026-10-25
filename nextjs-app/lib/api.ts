@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -40,4 +42,24 @@ export async function fetchFromApi<T>(
     );
   }
   return response.json() as Promise<T>;
+}
+
+/**
+ * Menerjemahkan error dari fetchFromApi() menjadi NextResponse JSON
+ * yang bisa langsung di-return dari sebuah Route Handler. Status dan
+ * pesan dari ApiError (yang berarti Flask yang menjawab, apapun
+ * bentuknya) diteruskan apa adanya — termasuk pesan 409 deletion-guard
+ * yang harus tetap verbatim. Error yang BUKAN ApiError (network put
+ * down, Flask tidak bisa dihubungi sama sekali) dianggap kegagalan
+ * infrastruktur, dicatat ke console.error, dan direspons 502 generik.
+ */
+export function apiErrorToResponse(
+  err: unknown,
+  fallbackMessage = "Tidak dapat terhubung ke server. Coba lagi nanti.",
+): NextResponse {
+  if (err instanceof ApiError) {
+    return NextResponse.json({ error: err.message }, { status: err.status });
+  }
+  console.error("[apiErrorToResponse] kegagalan tak terduga:", err);
+  return NextResponse.json({ error: fallbackMessage }, { status: 502 });
 }

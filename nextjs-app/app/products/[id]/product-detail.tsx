@@ -1,4 +1,4 @@
-import { AddToCartControls } from "@/components/AddToCartControls";
+import { AddToCartButton } from "@/components/AddToCartButton";
 import { formatRupiah } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
@@ -36,7 +36,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             ? "Stok habis"
             : `Stok tersedia: ${product.stock_quantity}`}
         </p>
-        <AddToCartControls product={product} />
+        <AddToCartButton product={product} />
       </div>
     </article>
   );

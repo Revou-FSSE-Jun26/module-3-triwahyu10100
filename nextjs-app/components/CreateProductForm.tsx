@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import toast from "react-hot-toast";
 import type { Category, Product } from "@/lib/types";
 
-export interface AddProductFormProps {
+export interface CreateProductFormProps {
   categories: Category[];
-  onCreate: (product: Product) => void;
+  onCreated: (product: Product) => void;
 }
 
 interface FormErrors {
@@ -15,17 +16,14 @@ interface FormErrors {
   sku?: string;
 }
 
-function slugify(text: string): string {
-  return text
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/-{2,}/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
-export function AddProductForm({ categories, onCreate }: AddProductFormProps) {
-  const [open, setOpen] = useState(false);
+export function CreateProductForm({
+  categories,
+  onCreated,
+}: CreateProductFormProps) {
+  // `open` default `true` di konteks dashboard — form tambah produk
+  // adalah aksi utama halaman ini, bukan panel sekunder seperti di
+  // /products CP2.
+  const [open, setOpen] = useState(true);
   const [productName, setProductName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [price, setPrice] = useState("");
@@ -33,6 +31,7 @@ export function AddProductForm({ categories, onCreate }: AddProductFormProps) {
   const [sku, setSku] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
+  const [submitting, setSubmitting] = useState(false);
 
   function validate(): FormErrors {
     const next: FormErrors = {};
@@ -50,36 +49,48 @@ export function AddProductForm({ categories, onCreate }: AddProductFormProps) {
     return next;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const validation = validate();
     setErrors(validation);
     if (Object.keys(validation).length > 0) return;
 
-    const now = new Date().toISOString();
-    const newProduct: Product = {
-      id: -Date.now(), // selalu negatif, tidak akan pernah bertabrakan dengan id asli dari backend (selalu positif)
-      category_id: Number(categoryId),
-      product_name: productName.trim(),
-      slug: slugify(productName),
-      description: description.trim() || null,
-      price: Number(price),
-      stock_quantity: Number(stockQuantity),
-      sku: sku.trim(),
-      images: [],
-      created_at: now,
-      updated_at: now,
-      deleted_at: null,
-    };
-    onCreate(newProduct);
-    setProductName("");
-    setCategoryId("");
-    setPrice("");
-    setStockQuantity("");
-    setSku("");
-    setDescription("");
-    setErrors({});
-    setOpen(false);
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product_name: productName.trim(),
+          category_id: Number(categoryId),
+          price: Number(price),
+          stock_quantity: Number(stockQuantity),
+          sku: sku.trim(),
+          description: description.trim() || null,
+        }),
+      });
+      const body = await response.json().catch(() => null);
+      if (!response.ok)
+        throw new Error(body?.error ?? "Gagal menyimpan produk.");
+      onCreated(body as Product);
+      toast.success(`Produk "${productName.trim()}" berhasil ditambahkan.`);
+      setProductName("");
+      setCategoryId("");
+      setPrice("");
+      setStockQuantity("");
+      setSku("");
+      setDescription("");
+      setErrors({});
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Gagal menyimpan produk.";
+      toast.error(`Gagal: ${message}`);
+      // Form SENGAJA tidak dikosongkan/ditutup di cabang gagal (mis. 409
+      // SKU duplikat) — user bisa langsung memperbaiki field yang
+      // bermasalah tanpa mengetik ulang semuanya.
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -88,7 +99,7 @@ export function AddProductForm({ categories, onCreate }: AddProductFormProps) {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="font-semibold text-blue-600 transition hover:text-blue-700">
-        {open ? "▾" : "▸"} Tambah Produk (Demo)
+        {open ? "▾" : "▸"} Tambah Produk Baru
       </button>
       {open && (
         <form onSubmit={handleSubmit} className="mt-4 space-y-3">
@@ -210,8 +221,9 @@ export function AddProductForm({ categories, onCreate }: AddProductFormProps) {
 
           <button
             type="submit"
-            className="rounded bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700">
-            Simpan Produk
+            disabled={submitting}
+            className="rounded bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:opacity-60">
+            {submitting ? "Menyimpan..." : "Simpan Produk"}
           </button>
         </form>
       )}

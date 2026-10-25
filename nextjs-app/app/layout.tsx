@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/auth-context";
 import { CartProvider } from "./providers/cart-provider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -17,11 +19,14 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body>
-        <CartProvider>
-          <Header />
-          {children}
-          <Footer />
-        </CartProvider>
+        <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            {children}
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

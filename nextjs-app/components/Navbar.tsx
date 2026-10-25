@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
-const NAV_LINKS = [
+const BASE_NAV_LINKS = [
   { href: "/", label: "Beranda" },
   { href: "/products", label: "Produk" },
   { href: "/categories", label: "Kategori" },
@@ -11,9 +12,15 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const navLinks =
+    user?.role === "admin"
+      ? [...BASE_NAV_LINKS, { href: "/dashboard", label: "Dashboard Admin" }]
+      : BASE_NAV_LINKS;
+
   return (
     <nav aria-label="Navigasi utama" className="flex gap-4">
-      {NAV_LINKS.map((link) => {
+      {navLinks.map((link) => {
         const isActive =
           pathname === link.href ||
           (link.href !== "/" && pathname.startsWith(link.href));
