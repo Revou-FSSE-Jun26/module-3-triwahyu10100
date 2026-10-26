@@ -46,3 +46,6 @@ next-env.d.ts
 # artefak internal workflow agent (design.md, plan.md, review.json, dst) --
 # catatan kerja selama development, tidak perlu ikut masuk ke repo GitHub.
 .agents/
+
+# Catatan pribadi penjelasan kode -- bukan untuk di-push ke GitHub.
+PANDUAN_PENJELASAN_KODE.md
