@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 
 export function AuthStatus() {
   const { user, isLoading, logout } = useAuth();
+  const { clear } = useCart();
   const router = useRouter();
 
   // Hindari kedipan "Masuk/Daftar" sesaat sebelum localStorage selesai
@@ -29,6 +31,11 @@ export function AuthStatus() {
 
   async function handleLogout() {
     await logout();
+    // Keranjang milik akun yang baru logout tidak boleh dibawa ke akun
+    // berikutnya yang login di browser yang sama (revoshop_cart tersimpan
+    // global, bukan per-akun) — bersihkan di sini, tepat di samping
+    // panggilan logout(), supaya keduanya selalu terjadi bersamaan.
+    clear();
     toast.success("Anda berhasil keluar.");
     router.push("/");
   }
