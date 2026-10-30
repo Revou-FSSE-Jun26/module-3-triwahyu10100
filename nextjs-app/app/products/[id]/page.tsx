@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchFromApi, ApiError } from "@/lib/api";
 import { ProductDetail } from "./product-detail";
-import type { Product } from "@/lib/types";
+import type { Category, Product } from "@/lib/types";
 
 interface ProductPageProps {
   params: { id: string };
@@ -30,5 +30,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
     if (err instanceof ApiError && err.status === 404) notFound();
     throw err; // ditangkap oleh app/products/[id]/error.tsx
   }
-  return <ProductDetail product={product} />;
+
+  let isApparel = false;
+  try {
+    const category = await fetchFromApi<Category>(
+      `/categories/${product.category_id}`,
+    );
+    isApparel = category.category_name === "Apparel";
+  } catch {
+    // Kegagalan mengambil kategori tidak boleh membuat halaman produk gagal —
+    // VariantPicker (dekoratif) cukup disembunyikan jika kategori tidak diketahui.
+    isApparel = false;
+  }
+
+  return <ProductDetail product={product} isApparel={isApparel} />;
 }

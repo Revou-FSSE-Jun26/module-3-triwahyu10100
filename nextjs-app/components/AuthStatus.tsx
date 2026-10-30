@@ -16,13 +16,15 @@ export function AuthStatus() {
 
   if (!user) {
     return (
-      <div className="flex items-center gap-3 text-sm">
-        <Link href="/login" className="text-gray-600 hover:text-blue-600">
+      <div className="flex items-center gap-3 text-caption">
+        <Link
+          href="/login"
+          className="rounded-sm text-muted transition-colors motion-safe:duration-base hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
           Masuk
         </Link>
         <Link
           href="/register"
-          className="rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-700">
+          className="rounded-lg bg-accent px-3 py-1.5 text-accent-foreground transition-colors motion-safe:duration-base hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
           Daftar
         </Link>
       </div>
@@ -41,14 +43,17 @@ export function AuthStatus() {
   }
 
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <span className="text-gray-700">
-        Hai, <span className="font-semibold">{user.first_name}</span>
-      </span>
+    <div className="flex items-center gap-3 text-caption">
+      <Link
+        href="/account"
+        className="rounded-sm text-muted transition-colors motion-safe:duration-base hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+        Hai,{" "}
+        <span className="font-semibold text-foreground">{user.first_name}</span>
+      </Link>
       <button
         type="button"
         onClick={handleLogout}
-        className="rounded border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50">
+        className="rounded-lg border border-border px-3 py-1.5 text-foreground transition-colors motion-safe:duration-base hover:bg-surface focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
         Keluar
       </button>
     </div>

@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { ROLE_COOKIE } from "@/lib/auth-cookies";
 
 const ADMIN_PREFIX = "/dashboard";
-const LOGIN_REQUIRED_PREFIXES = ["/cart", "/checkout", "/orders"];
+const LOGIN_REQUIRED_PREFIXES = ["/checkout", "/orders", "/account"];
 
 function matchesPrefix(pathname: string, prefix: string): boolean {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
@@ -39,11 +39,11 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/:path*",
-    "/cart",
-    "/cart/:path*",
     "/checkout",
     "/checkout/:path*",
     "/orders",
     "/orders/:path*",
+    "/account",
+    "/account/:path*",
   ],
 };

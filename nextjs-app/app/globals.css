@@ -3,19 +3,79 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  color-scheme: light;
+  /* Light-only palette. No prefers-color-scheme media query — do not reintroduce one. */
+  --color-bg: #ffffff;
+  --color-fg: #18181b; /* near-black text, ~15.6:1 on white */
+  --color-muted: #52525b; /* secondary text, ~7.5:1 on white (AA) */
+  --color-border: #e4e4e7;
+  --color-surface: #f4f4f5; /* subtle section background, not pure white */
+  --color-accent: #1d4ed8; /* blue-700, ~8.6:1 white-on-accent */
+  --color-accent-foreground: #ffffff;
+  --color-ink: #0f0f12; /* explicit dark-surface utility (footer/band), NOT a dark mode */
+  --color-ink-foreground: #f4f4f5;
+
+  color-scheme: light; /* explicit, do not switch to "light dark" */
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadow scale */
+  --shadow-sm: 0 1px 2px rgba(15, 15, 18, 0.05);
+  --shadow-md: 0 4px 16px rgba(15, 15, 18, 0.08);
+  --shadow-lg: 0 16px 40px rgba(15, 15, 18, 0.12);
+
+  /* Transition tokens */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  font-family:
+    var(--font-sans),
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Explicit dark-surface band (footer/marquee use), opt-in class, NOT a media query. */
+  .band-ink {
+    background: var(--color-ink);
+    color: var(--color-ink-foreground);
+  }
+
+  /* CSS-only fade/slide-in, toggled by FadeInSection's IntersectionObserver via
+     the .is-visible class. motion-reduce: variants on consumers additionally
+     short-circuit this (see components/home/FadeInSection.tsx). */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity var(--duration-slow) var(--ease-premium),
+      transform var(--duration-slow) var(--ease-premium);
+  }
+  .fade-in-up.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

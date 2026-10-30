@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useCart } from "@/hooks/useCart";
 import { formatRupiah } from "@/lib/format";
+import { Container } from "@/components/layout/Container";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -78,54 +79,56 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="grid gap-8 px-4 py-8 sm:grid-cols-2">
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <h1 className="text-2xl font-semibold">Checkout</h1>
-        <div>
-          <label
-            htmlFor="shipping_address"
-            className="block text-sm font-medium text-gray-700">
-            Alamat Pengiriman
-          </label>
-          <textarea
-            id="shipping_address"
-            value={shippingAddress}
-            onChange={(e) => setShippingAddress(e.target.value)}
-            rows={4}
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+    <Container>
+      <div className="grid gap-10 py-10 sm:grid-cols-2">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <h1 className="text-h1">Checkout</h1>
+          <div>
+            <label
+              htmlFor="shipping_address"
+              className="block text-caption font-medium text-foreground">
+              Alamat Pengiriman
+            </label>
+            <textarea
+              id="shipping_address"
+              value={shippingAddress}
+              onChange={(e) => setShippingAddress(e.target.value)}
+              rows={4}
+              className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-foreground placeholder-muted transition-colors motion-safe:duration-base focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            />
+          </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60">
-          {submitting ? "Memproses..." : "Buat Pesanan"}
-        </button>
-      </form>
+          {error && <p className="text-caption text-red-600">{error}</p>}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full rounded-lg bg-accent px-4 py-2 text-accent-foreground transition-colors motion-safe:duration-base hover:bg-accent/90 disabled:opacity-60">
+            {submitting ? "Memproses..." : "Buat Pesanan"}
+          </button>
+        </form>
 
-      <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Ringkasan Pesanan</h2>
-        <ul className="divide-y divide-gray-200">
-          {lines.map((line) => (
-            <li
-              key={line.product.id}
-              className="flex items-center justify-between py-2">
-              <span>
-                {line.product.product_name} × {line.quantity}
-              </span>
-              <span className="font-medium">
-                {formatRupiah(line.product.price * line.quantity)}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex items-center justify-between border-t border-gray-200 pt-3">
-          <span className="font-semibold">Total</span>
-          <span className="text-lg font-bold">{formatRupiah(totalPrice)}</span>
+        <div className="space-y-3">
+          <h2 className="text-h2">Ringkasan Pesanan</h2>
+          <ul className="divide-y divide-border">
+            {lines.map((line) => (
+              <li
+                key={line.product.id}
+                className="flex items-center justify-between py-2 text-body">
+                <span>
+                  {line.product.product_name} × {line.quantity}
+                </span>
+                <span className="font-medium">
+                  {formatRupiah(line.product.price * line.quantity)}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="flex items-center justify-between border-t border-border pt-3">
+            <span className="font-semibold">Total</span>
+            <span className="text-h3">{formatRupiah(totalPrice)}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

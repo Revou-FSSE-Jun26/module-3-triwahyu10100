@@ -1,9 +1,12 @@
+import { Container } from "@/components/layout/Container";
+
 export function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-white py-6 text-center text-sm text-gray-500">
-      <p>
-        &copy; {new Date().getFullYear()} RevoShop. Semua hak cipta dilindungi.
-      </p>
+    <footer className="band-ink border-t border-border/20 py-8 text-center text-caption">
+      <Container>
+        <p>&copy; {new Date().getFullYear()} RevoShop. by triwahyu.</p>
+        <p>contact : triwahyu10100@gmail.com</p>
+      </Container>
     </footer>
   );
 }

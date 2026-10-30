@@ -19,7 +19,9 @@ export function Navbar() {
       : BASE_NAV_LINKS;
 
   return (
-    <nav aria-label="Navigasi utama" className="flex gap-4">
+    <nav
+      aria-label="Navigasi utama"
+      className="flex flex-wrap gap-x-5 gap-y-1 text-body">
       {navLinks.map((link) => {
         const isActive =
           pathname === link.href ||
@@ -29,11 +31,11 @@ export function Navbar() {
             key={link.href}
             href={link.href}
             aria-current={isActive ? "page" : undefined}
-            className={
+            className={`rounded-sm transition-colors motion-safe:duration-base focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 ${
               isActive
-                ? "font-semibold text-blue-600 underline"
-                : "text-gray-600 hover:text-blue-600"
-            }>
+                ? "font-semibold text-accent underline"
+                : "text-muted hover:text-accent"
+            }`}>
             {link.label}
           </Link>
         );
