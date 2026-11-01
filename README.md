@@ -246,30 +246,12 @@ mengambilnya. Setelah file-file itu ada, tampilkan di sini:
    ![JavaScript — DOM & Events](screenshots/javascript-dom-events.png)
    ![JavaScript — DOM & Events (catatan)](screenshots/javascript-dom-events-2.png)
 4. `javascript/array-methods.html` — statistik & tabel order:
-   ![JavaScript — Array Methods](screenshots/javascript-array-methods.png)
+   ![JavaScript — Array Methods](screenshots/javasc**🔗 Live Demo:** [module-3-triwahyu10100.vercel.app](https://module-3-triwahyu10100.vercel.app/)ript-array-methods.png)
 5. `typescript-tailwind/index.html` dengan live search aktif (desktop):
    ![TypeScript + Tailwind — Desktop](screenshots/typescript-tailwind-desktop.png)
 6. `typescript-tailwind/index.html` pada lebar mobile:
    ![TypeScript + Tailwind — Mobile](screenshots/typescript-tailwind-mobile.png)
-7. `nextjs-app/` — Beranda:
-   ![Next.js — Beranda](screenshots/nextjs-app-beranda.png)
-8. `nextjs-app/` — Daftar produk (`/products`):
-   ![Next.js — Daftar Produk](screenshots/nextjs-app-produk.png)
-9. `nextjs-app/` — Detail produk (`/products/[id]`):
-   ![Next.js — Detail Produk](screenshots/nextjs-app-detail-produk.png)
-10. `nextjs-app/` — Daftar kategori (`/categories`):
-    ![Next.js — Daftar Kategori](screenshots/nextjs-app-kategori.png)
-11. `nextjs-app/` — Keranjang (`/cart`):
-    ![Next.js — Keranjang](screenshots/nextjs-app-keranjang.png)
-12. `nextjs-app/` — Checkout (`/checkout`):
-    ![Next.js — Checkout](screenshots/nextjs-app-checkout.png)
-13. `nextjs-app/` — Login/Register:
-    ![Next.js — Login](screenshots/nextjs-app-login.png)
-    ![Next.js — Register](screenshots/nextjs-app-register.png)
-14. `nextjs-app/` — Dashboard admin (`/dashboard`):
-    ![Next.js — Dashboard Admin](screenshots/nextjs-app-dashboard-admin.png)
-15. `nextjs-app/` — Halaman akun (`/account`):
-    ![Next.js — Halaman Akun](screenshots/nextjs-app-account.png)
+7. `nextjs-app/` **🔗 Live Demo:** [module-3-triwahyu10100.vercel.app](https://module-3-triwahyu10100.vercel.app/)
 
 > Catatan: gambar di atas hanya akan muncul setelah file screenshot
 > benar-benar ada di folder `screenshots/` dengan nama yang sesuai.
