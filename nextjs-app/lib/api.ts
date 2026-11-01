@@ -33,6 +33,14 @@ export async function fetchFromApi<T>(
   const response = await fetch(`${baseUrl}${path}`, {
     ...init,
     cache: "no-store",
+    headers: {
+      // Beberapa provider hosting backend (Cloudflare "Browser
+      // Integrity Check" di Helipod, misalnya) menolak request tanpa
+      // User-Agent dengan 403. fetch() Node.js di server Vercel tidak
+      // mengirim User-Agent secara default, jadi diisi manual di sini.
+      "User-Agent": "RevoShopNextjsApp/1.0",
+      ...init?.headers,
+    },
   });
   if (!response.ok) {
     const body = await response.json().catch(() => null);
