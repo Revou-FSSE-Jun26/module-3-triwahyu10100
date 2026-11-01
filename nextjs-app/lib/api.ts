@@ -34,11 +34,18 @@ export async function fetchFromApi<T>(
     ...init,
     cache: "no-store",
     headers: {
-      // Beberapa provider hosting backend (Cloudflare "Browser
-      // Integrity Check" di Helipod, misalnya) menolak request tanpa
-      // User-Agent dengan 403. fetch() Node.js di server Vercel tidak
-      // mengirim User-Agent secara default, jadi diisi manual di sini.
-      "User-Agent": "RevoShopNextjsApp/1.0",
+      // Helipod memakai Cloudflare "Browser Integrity Check" di depan
+      // container-nya, yang memblokir (403, error 1010) request tanpa
+      // User-Agent yang menyerupai browser asli. fetch() Node.js di
+      // server Vercel tidak mengirim header-header ini secara default
+      // sama sekali, jadi disetel manual meniru request browser biasa
+      // — bukan sekadar "ada User-Agent", tapi yang lolos heuristik
+      // Cloudflare (string UA browser nyata + Accept/Accept-Language
+      // yang biasa menyertainya).
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+      Accept: "application/json, text/plain, */*",
+      "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
       ...init?.headers,
     },
   });
