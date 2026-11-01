@@ -1,12 +1,16 @@
-# RevoShop — Frontend Fundamentals (Checkpoint 1)
+# RevoShop — Frontend (Checkpoint 1-3)
 
-Latihan fundamental sebelum masuk ke Next.js/React di Checkpoint 2: HTML
-semantik, CSS Grid/Flexbox + responsive, vanilla JavaScript (DOM & array
-methods), dan TypeScript + Tailwind CSS. Semua data contoh (produk,
-kategori, order) sengaja dibuat menyerupai bentuk response API backend
-RevoShop (`backend/app/models/*.py`, lihat `backend/README.md`), supaya
-latihan ini terasa seperti pemanasan langsung untuk RevoShop yang
-sesungguhnya.
+Proyek frontend RevoShop, dari latihan fundamental sampai aplikasi
+e-commerce lengkap. `html-css/`, `javascript/`, dan `typescript-tailwind/`
+adalah latihan fundamental Checkpoint 1 (HTML semantik, CSS Grid/
+Flexbox + responsive, vanilla JavaScript, TypeScript + Tailwind CSS) —
+semua data contohnya sengaja dibuat menyerupai bentuk response API
+backend RevoShop (`backend/app/models/*.py`, lihat `backend/README.md`),
+supaya latihan ini terasa seperti pemanasan langsung untuk RevoShop
+yang sesungguhnya. `nextjs-app/` adalah RevoShop yang sesungguhnya itu —
+storefront Next.js lengkap (Checkpoint 2-3) yang benar-benar terhubung
+ke backend Flask tersebut, lihat sectionnya di bawah untuk detail dan
+link demo live.
 
 ## Struktur Folder
 
@@ -14,7 +18,7 @@ sesungguhnya.
 html-css/            -> Halaman profil semantik + form kontak (HTML5 + CSS Grid/Flexbox, responsive)
 javascript/           -> Latihan DOM manipulation/events & array methods (forEach/map/filter/reduce)
 typescript-tailwind/  -> Proyek TypeScript + Tailwind CSS: katalog produk bertipe, live search, keranjang interaktif
-nextjs-app/            -> Storefront RevoShop Next.js 14 App Router + TypeScript + Tailwind (Checkpoint 2), mengonsumsi API Flask
+nextjs-app/            -> Storefront RevoShop Next.js 14 App Router + TypeScript + Tailwind (Checkpoint 2-3: auth, cart/checkout, dashboard admin, E2E Playwright), mengonsumsi API Flask
 backend/               -> Flask + PostgreSQL API RevoShop (checkpoint sebelumnya, tidak diubah di checkpoint ini)
 ```
 
@@ -103,6 +107,11 @@ data (`Product`, `Category`, `Order`) untuk ketiga folder di atas.
 
 ### `nextjs-app/`
 
+**🔗 Live Demo:** [module-3-triwahyu10100.vercel.app](https://module-3-triwahyu10100.vercel.app/)
+— demo ini terhubung ke backend Flask yang sudah di-deploy (bukan
+`localhost`), jadi fitur yang butuh akun demo/admin mengikuti data yang
+memang ada di database production, bukan database lokal milikmu.
+
 Storefront RevoShop, dibangun dengan Next.js 14 (App Router) +
 TypeScript + Tailwind CSS, mengonsumsi API Flask di `backend/` secara
 langsung (bukan menduplikasi data contoh seperti di
@@ -111,7 +120,16 @@ read-only; **Checkpoint 3** menambahkan autentikasi (register/login/
 logout berbasis JWT + cookie sesi), keranjang yang persisten di
 `localStorage`, alur checkout nyata ke `POST /orders`, dashboard admin
 dengan CRUD produk & kategori, serta suite E2E Playwright yang
-mencakup seluruh alur itu.
+mencakup seluruh alur itu. Di atas semua itu, tampilan storefront
+sudah di-redesign penuh terinspirasi gaya premium-minimal tema
+Shopify Horizon (referensi gaya saja — tidak ada kode/aset/logo
+Shopify yang disalin; seluruh komponen ditulis ulang dari nol).
+
+Hasil akhirnya, RevoShop bukan lagi sekadar latihan katalog read-only,
+melainkan aplikasi e-commerce frontend yang cukup lengkap: autentikasi,
+keranjang + checkout nyata, dashboard admin CRUD produk/kategori,
+halaman akun pelanggan, dan tampilan yang sudah direstyle — semuanya
+terhubung penuh ke Flask API Module 2.
 
 Konsep yang dilatih:
 
@@ -130,15 +148,34 @@ Konsep yang dilatih:
 - **Cookie sesi** (`revoshop_token` httpOnly berisi JWT asli,
   `revoshop_role` non-httpOnly untuk UX) dan **middleware route
   protection** (`middleware.ts`) yang melindungi `/cart`, `/checkout`,
-  `/orders`, dan `/dashboard/**`.
+  `/orders`, `/account`, dan `/dashboard/**`.
+- **Halaman Akun** (`/account`) — pelanggan yang login bisa melihat
+  profilnya (email, role, tanggal dibuat — read-only) dan mengedit
+  `username`, `phone`, `address` lewat proxy `PUT /api/users/[id]`
+  yang meneruskan `Authorization: Bearer <token>` ke Flask.
+- **Dashboard admin**: CRUD penuh untuk produk dan kategori, termasuk
+  guard penghapusan (Flask membalas `409` kalau produk/kategori masih
+  dipakai order lain — pesan error-nya diteruskan apa adanya ke UI),
+  plus halaman overview pesanan yang menampilkan catatan bahwa
+  `GET /orders` di backend memang dibatasi ke identitas JWT pemanggil
+  (tidak ada endpoint admin untuk melihat order akun lain).
 - **Toast notification** (`react-hot-toast`) untuk feedback aksi
   (login, checkout, CRUD admin).
+- **Redesign visual bergaya Horizon**: design token di `globals.css`
+  (warna, type scale, spacing 4/8px, radius, shadow, transition),
+  komponen block-based (`Hero`, grid koleksi kategori/`BentoGrid`,
+  `ProductCard` dengan hover state), skeleton loading
+  (`loading.tsx`), serta `error.tsx`/`not-found.tsx` yang ramah
+  pengguna. Semua elemen interaktif baru punya focus ring yang
+  terlihat, dan animasi fade-in menghormati
+  `prefers-reduced-motion`.
 - **E2E testing dengan Playwright** (`nextjs-app/e2e/**`) — mencakup
-  auth, belanja/checkout, dan CRUD admin terhadap backend Flask nyata.
+  auth, belanja/checkout, CRUD admin, dan isolasi keranjang antar
+  akun, dijalankan terhadap backend Flask nyata.
 - **Routing App Router**: beranda, `/products`, `/products/[id]`,
-  `/categories`, `/orders`, `/register`, `/login`, `/cart`,
-  `/checkout`, dan `/dashboard/**` (admin), masing-masing dengan
-  `loading.tsx`/`error.tsx` sendiri bila relevan.
+  `/categories`, `/orders`, `/account`, `/register`, `/login`,
+  `/cart`, `/checkout`, dan `/dashboard/**` (admin), masing-masing
+  dengan `loading.tsx`/`error.tsx` sendiri bila relevan.
 - **Styling dengan Tailwind CSS**, konsisten dengan pendekatan
   utility-first yang sama dipakai di `typescript-tailwind/`.
 
@@ -165,7 +202,15 @@ signature JWT secara kriptografis sebelum mengizinkan mutasi produk/
 kategori lewat dashboard admin. Server-only, tidak pernah dikirim ke
 browser. (Checkpoint 2 memakai `DEMO_USER_EMAIL`/`DEMO_USER_PASSWORD`
 untuk halaman `/orders` — kedua variabel itu sudah tidak dipakai lagi
-sejak Checkpoint 3 menggantinya dengan sesi login asli.)
+sejak Checkpoint 3 menggantinya dengan sesi login asli. Variabel
+`E2E_ADMIN_EMAIL`/`E2E_ADMIN_PASSWORD` dipakai khusus untuk suite
+Playwright, lihat di bawah.)
+
+Belum ada endpoint untuk mendaftarkan akun admin — buat sendiri lewat
+SQL manual: daftar akun biasa dulu lewat `/register`, lalu jalankan
+`UPDATE users SET role = 'admin' WHERE email = '<email akun itu>';`
+langsung ke Postgres (lihat langkah lengkap di
+`nextjs-app/README.md`).
 
 Daripada menjalankan backend Flask dan frontend Next.js secara manual
 di dua terminal berbeda, jalankan `./start-dev.ps1` dari root proyek —
@@ -173,9 +218,13 @@ script ini otomatis membuka jendela PowerShell baru untuk backend
 Flask (port 5000), lalu menjalankan `npm run dev` untuk frontend
 (port 3000) di jendela yang sama.
 
-Untuk menjalankan suite E2E Playwright (termasuk langkah provisioning
-akun admin secara manual), lihat bagian "Menjalankan suite Playwright"
-di `nextjs-app/README.md`.
+**Cara menjalankan test:** `npx playwright test` dari `nextjs-app/`.
+Syaratnya: backend Flask + Postgres harus sudah berjalan lebih dulu,
+dan `nextjs-app/.env.test` sudah diisi kredensial akun admin
+(`E2E_ADMIN_EMAIL`/`E2E_ADMIN_PASSWORD`) hasil provisioning manual di
+atas. Langkah lengkap (termasuk cara provisioning admin untuk
+kebutuhan test) ada di bagian "Menjalankan suite Playwright" di
+`nextjs-app/README.md`.
 
 ## Commit History
 
@@ -202,6 +251,25 @@ mengambilnya. Setelah file-file itu ada, tampilkan di sini:
    ![TypeScript + Tailwind — Desktop](screenshots/typescript-tailwind-desktop.png)
 6. `typescript-tailwind/index.html` pada lebar mobile:
    ![TypeScript + Tailwind — Mobile](screenshots/typescript-tailwind-mobile.png)
+7. `nextjs-app/` — Beranda:
+   ![Next.js — Beranda](screenshots/nextjs-app-beranda.png)
+8. `nextjs-app/` — Daftar produk (`/products`):
+   ![Next.js — Daftar Produk](screenshots/nextjs-app-produk.png)
+9. `nextjs-app/` — Detail produk (`/products/[id]`):
+   ![Next.js — Detail Produk](screenshots/nextjs-app-detail-produk.png)
+10. `nextjs-app/` — Daftar kategori (`/categories`):
+    ![Next.js — Daftar Kategori](screenshots/nextjs-app-kategori.png)
+11. `nextjs-app/` — Keranjang (`/cart`):
+    ![Next.js — Keranjang](screenshots/nextjs-app-keranjang.png)
+12. `nextjs-app/` — Checkout (`/checkout`):
+    ![Next.js — Checkout](screenshots/nextjs-app-checkout.png)
+13. `nextjs-app/` — Login/Register:
+    ![Next.js — Login](screenshots/nextjs-app-login.png)
+    ![Next.js — Register](screenshots/nextjs-app-register.png)
+14. `nextjs-app/` — Dashboard admin (`/dashboard`):
+    ![Next.js — Dashboard Admin](screenshots/nextjs-app-dashboard-admin.png)
+15. `nextjs-app/` — Halaman akun (`/account`):
+    ![Next.js — Halaman Akun](screenshots/nextjs-app-account.png)
 
 > Catatan: gambar di atas hanya akan muncul setelah file screenshot
 > benar-benar ada di folder `screenshots/` dengan nama yang sesuai.
